@@ -6,20 +6,21 @@ import io
 import json
 import random
 import subprocess
-from pathlib import Path
 from zipfile import ZipFile
 
 import numpy as np
 from PIL import Image
 
-DATA = Path(__file__).resolve().parent / "data"
+from project_paths import WORKSPACE
+
+DATA = WORKSPACE / "data"
 URL = "https://sid.erda.dk/public/archives/daaeac0d7ce1152aea9b61d9f1e19370/GTSRB_Final_Training_Images.zip"
 SHA256 = "d32ac4b5fa9a1cbd1994768413902e8193599d9434cf0a8eb9cfd00a6d3a290c"
 SEED = 411
 
 
 def prepare():
-    DATA.mkdir(exist_ok=True)
+    DATA.mkdir(parents=True, exist_ok=True)
     path = DATA / "GTSRB_Final_Training_Images.zip"
     if not path.exists():
         partial = path.with_suffix(".part")

@@ -5,14 +5,14 @@ import csv
 import hashlib
 import json
 import time
-from pathlib import Path
 
 import numpy as np
 import torch
 from torch import nn
 from torch.nn import functional as F
 
-ROOT = Path(__file__).resolve().parent
+from project_paths import WORKSPACE
+
 BATCH = 128
 LAMBDA = 1e-5
 ORDER_SEED = 2901
@@ -80,7 +80,7 @@ def metrics(net, x, y):
 
 
 def train(args):
-    target = ROOT / "runs" / args.tag / f"seed{args.seed}"
+    target = WORKSPACE / "runs" / args.tag / f"seed{args.seed}"
     target.mkdir(parents=True, exist_ok=True)
     name = "dense" if args.method == "dense" else f"{args.method}{args.sparsity}"
     output = target / (name + ".pt")
@@ -91,7 +91,7 @@ def train(args):
     torch.manual_seed(args.seed)
     net = model().to(device, memory_format=torch.channels_last)
     params = weights(net)
-    with np.load(ROOT / "data/prepared.npz") as data:
+    with np.load(WORKSPACE / "data/prepared.npz") as data:
         x = (
             torch.from_numpy(data["images"])
             .permute(0, 3, 1, 2)
@@ -113,7 +113,9 @@ def train(args):
         )
         reference = hashlib.sha256(dense_file.read_bytes()).hexdigest()
     optimizer = torch.optim.Adam(net.parameters(), lr=args.lr)
-    valid_hash = hashlib.sha256((ROOT / "data/manifest.csv").read_bytes()).hexdigest()
+    valid_hash = hashlib.sha256(
+        (WORKSPACE / "data/manifest.csv").read_bytes()
+    ).hexdigest()
     config = dict(
         **vars(args),
         batch=BATCH,

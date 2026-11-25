@@ -4,7 +4,8 @@ import numpy as np
 import torch
 
 from evaluate import GRID, OUT, read_csv, write_csv
-from experiment import LAMBDA, ROOT, model, weights
+from experiment import LAMBDA, model, weights
+from project_paths import WORKSPACE
 
 
 @torch.inference_mode()
@@ -31,7 +32,7 @@ def measure(net, images, labels):
 
 def main():
     torch.set_num_threads(4)
-    with np.load(ROOT / "data/prepared.npz") as data:
+    with np.load(WORKSPACE / "data/prepared.npz") as data:
         train = ~data["validation"]
         images = (
             torch.from_numpy(data["images"][train]).permute(0, 3, 1, 2).float() / 127.5

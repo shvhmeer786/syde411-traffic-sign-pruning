@@ -11,11 +11,12 @@ import numpy as np
 import torch
 from PIL import Image
 
-from experiment import ROOT, metrics, model, weights
+from experiment import metrics, model, weights
 from grid import GRID, SEEDS
 from prepare import URL
+from project_paths import WORKSPACE
 
-OUT = ROOT / "results"
+OUT = WORKSPACE / "results"
 
 
 def read_csv(path):
@@ -31,7 +32,7 @@ def write_csv(path, rows):
 
 
 def archive(name, checksum):
-    dest = ROOT / "data" / name
+    dest = WORKSPACE / "data" / name
     if not dest.exists():
         tmp = dest.with_suffix(".part")
         subprocess.run(
@@ -92,7 +93,7 @@ def evaluate():
             assert (GRID / f"seed{seed}" / f"comparison{s}.csv").exists()
     sensitivity = []
     for name in ("comparison", "rho_half", "rho_double", "rate_half", "rate_double"):
-        folder = ROOT / "runs" / name / "seed411"
+        folder = WORKSPACE / "runs" / name / "seed411"
         cfg = json.loads((folder / "admm80.json").read_text())
         hist = read_csv(folder / "admm80.csv")
         assert (folder / "admm80.pt").exists()

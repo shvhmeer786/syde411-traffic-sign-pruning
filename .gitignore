@@ -24,3 +24,6 @@ authoring/*
 
 # The submission ZIP is generated locally from the tracked files.
 deliverables/*.zip
+
+# Local training and evaluation runs launched from Jupyter.
+/notebook-runs/

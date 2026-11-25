@@ -12,18 +12,28 @@ Which weights should a traffic-sign classifier keep? We compared global magnitud
 
 Mean accuracy on the 12,630 official GTSRB test images across three initializations. At 90% sparsity, magnitude pruning won in every pair. The comparison applies to the four-epoch pruning budget.
 
-[Results notebook](notebooks/results.ipynb) · [Technical report (PDF)](deliverables/Group28_Technical_Report_Draft.pdf) · [AI acknowledgement](deliverables/Group28_AI_Acknowledgement.pdf)
+[Training and pruning notebook](notebooks/train_and_prune.ipynb) · [Original results notebook](notebooks/results.ipynb) · [Technical report (PDF)](deliverables/Group28_Technical_Report_Draft.pdf) · [AI acknowledgement](deliverables/Group28_AI_Acknowledgement.pdf)
 
-## Explore the saved results
+## Run the project in Jupyter
 
-The original experiments ran as Python scripts on an Apple M1 Pro using PyTorch MPS. The Jupyter notebook was added afterward. It reconstructs the results table from the saved CSV, checks the weight caps and matched updates, and displays the report figures. GitHub can preview its saved outputs. To run it locally from the repository root:
+Clone or download this repository. From its root, create a Python 3.11 environment and start JupyterLab:
 
 ```sh
 python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements-notebook.txt
-python -m jupyterlab notebooks/results.ipynb
+python -m pip install -r requirements.txt -r requirements-notebook.txt
+python -m jupyterlab notebooks/train_and_prune.ipynb
 ```
+
+On Windows PowerShell, use `py -3.11 -m venv .venv` and `.\.venv\Scripts\Activate.ps1` for the first two commands. The first data download requires internet access and `curl`. Training uses Apple MPS when available and CPU elsewhere.
+
+- **For one experiment**, run steps 1–5. Train a dense CNN, prune half its weights with each method, and compare validation accuracy and per-layer retention.
+- **For the whole project**, choose **Run → Run All Cells**. Steps 6–9 finish the three-seed grid, run the ADMM sensitivity study, evaluate the official test set, audit the training objective, and generate both report figures. The test table displays your measurements alongside the original report.
+- **To resume**, keep the same run name and rerun the cells. Completed models are reused. To retrain from scratch, set a new name in step 1. Checkpoints, CSVs, and figures go in `notebook-runs/<run_name>/`.
+
+## Explore the original results
+
+The original experiments ran as Python scripts on an Apple M1 Pro. The [results notebook](notebooks/results.ipynb) reconstructs the report table from those saved runs, verifies the weight caps and update counts, and displays the figures. GitHub shows its saved outputs. For analysis alone, install `requirements-notebook.txt` and open `notebooks/results.ipynb` in JupyterLab.
 
 ## Reproduce the experiments
 
@@ -40,7 +50,7 @@ Install the training dependencies in the same environment with `python -m pip in
 
 **Evaluate existing checkpoints.** The repository includes the completed runs. Start with `evaluate.py` to regenerate test tables from them. It downloads the official test archives as needed. Run `prepare.py` before the training-objective audit.
 
-**Train from scratch.** In a fresh empty working directory, copy the root Python scripts and `requirements.txt`, then run the six commands above in order. In an existing checkout, the grid and sensitivity scripts reuse completed checkpoints. For a single fresh paired experiment in the checkout, prepare the data and use an unused tag:
+**Train from scratch.** To run the six commands above from a checkout with a fresh output directory, set `export SYDE411_WORKSPACE="$PWD/notebook-runs/cli-repeat"` before running the first command. The grid and sensitivity scripts reuse completed checkpoints in the selected workspace. With the default workspace (the repository root), you can also prepare the data and run a single fresh pair under an unused tag:
 
 ```sh
 python experiment.py dense --epochs 12 --lr .003 --tag repeat
@@ -60,7 +70,7 @@ The CNN has 98,528 prunable weights and 267 free biases. Dense training uses 12 
 - `data/manifest.csv` records the partition, class and track of each training-archive image. The image archives and prepared arrays are downloaded or regenerated locally.
 - `runs/` contains the validation pilot, main grid and sensitivity runs, including checkpoints, configurations and logs.
 - `results/` contains the seed-level CSVs and publication figures.
-- `notebooks/` contains the executed Jupyter analysis.
+- `notebooks/` contains the end-to-end training walkthrough and the executed analysis of the original runs.
 - `deliverables/` contains the editable report, separate acknowledgement and their PDFs.
 - `authoring/` contains the report and acknowledgement builders (require `python-docx` and `lxml`) and `package.py` to build the course code ZIP.
 

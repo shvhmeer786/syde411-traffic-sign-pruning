@@ -3,20 +3,19 @@
 import shutil
 import subprocess
 import sys
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
+from project_paths import SOURCE, WORKSPACE
 
 
 def sweep():
-    reference = ROOT / "runs/comparison/seed411/dense.pt"
+    reference = WORKSPACE / "runs/comparison/seed411/dense.pt"
     for name, rho, rate in [
         ("rho_half", 0.0005, 0.001),
         ("rho_double", 0.002, 0.001),
         ("rate_half", 0.001, 0.0005),
         ("rate_double", 0.001, 0.002),
     ]:
-        folder = ROOT / "runs" / name / "seed411"
+        folder = WORKSPACE / "runs" / name / "seed411"
         folder.mkdir(parents=True, exist_ok=True)
         if (folder / "admm80.pt").exists():
             continue
@@ -24,7 +23,7 @@ def sweep():
         subprocess.run(
             [
                 sys.executable,
-                str(ROOT / "experiment.py"),
+                str(SOURCE / "experiment.py"),
                 "admm",
                 "--epochs",
                 "4",

@@ -3,10 +3,10 @@
 import shutil
 import subprocess
 import sys
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
-GRID = ROOT / "runs" / "comparison"
+from project_paths import SOURCE, WORKSPACE
+
+GRID = WORKSPACE / "runs" / "comparison"
 SEEDS = (411, 412, 413)
 
 
@@ -17,14 +17,14 @@ def run(method, seed, sparsity=80):
     if (dest / f"{stem}.pt").exists():
         return
     if method == "dense" and seed == 411:
-        src = ROOT / "runs/pilot/seed411"
+        src = WORKSPACE / "runs/pilot/seed411"
         if (src / "dense.pt").exists():
             for ext in ("csv", "json", "pt"):
                 shutil.copy2(src / f"dense.{ext}", dest / f"dense.{ext}")
             return
     args = [
         sys.executable,
-        str(ROOT / "experiment.py"),
+        str(SOURCE / "experiment.py"),
         method,
         "--seed",
         str(seed),
@@ -52,7 +52,7 @@ if __name__ == "__main__":
             subprocess.run(
                 [
                     sys.executable,
-                    str(ROOT / "summarize.py"),
+                    str(SOURCE / "summarize.py"),
                     str(GRID / f"seed{seed}"),
                     "--sparsity",
                     str(sparsity),

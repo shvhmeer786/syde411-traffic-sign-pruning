@@ -11,6 +11,7 @@ paths = [
     root / "requirements.txt",
     root / "requirements-notebook.txt",
     root / "notebooks/results.ipynb",
+    root / "notebooks/train_and_prune.ipynb",
     root / "README.md",
     root / "data/manifest.csv",
     *[p for p in (root / "results").glob("*") if p.is_file()],
@@ -26,6 +27,8 @@ with ZipFile(dest) as z:
     assert {
         "prepare.py",
         "experiment.py",
+        "project_paths.py",
+        "notebooks/train_and_prune.ipynb",
         "evaluate.py",
         "data/manifest.csv",
         "results/test_results.csv",
