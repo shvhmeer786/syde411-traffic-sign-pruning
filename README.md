@@ -25,7 +25,7 @@ python -m pip install -r requirements.txt -r requirements-notebook.txt
 python -m jupyterlab notebooks/train_and_prune.ipynb
 ```
 
-On Windows PowerShell, use `py -3.11 -m venv .venv` and `.\.venv\Scripts\Activate.ps1` for the first two commands. The first data download requires internet access and `curl`. Training uses Apple MPS when available and CPU elsewhere.
+On Windows PowerShell, use `py -3.11 -m venv .venv` and `.\.venv\Scripts\Activate.ps1` for the first two commands. The first data download requires internet access and `curl`. Training uses Apple MPS when available and CPU elsewhere. A full run took about 12 minutes on the project’s M1 Pro with the data archives already downloaded. Allow additional time on CPU and for the initial download.
 
 - **For one experiment**, run steps 1–5. Train a dense CNN, prune half its weights with each method, and compare validation accuracy and per-layer retention.
 - **For the whole project**, choose **Run → Run All Cells**. Steps 6–9 finish the three-seed grid, run the ADMM sensitivity study, evaluate the official test set, audit the training objective, and generate both report figures. The test table displays your measurements alongside the original report.
