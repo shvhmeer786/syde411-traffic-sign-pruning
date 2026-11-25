@@ -1,0 +1,26 @@
+# Local environments, caches and machine files
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.ruff_cache/
+*.py[cod]
+*.log
+.DS_Store
+.env
+.env.*
+*.pem
+*.key
+
+# The official archives and processed image arrays are rebuilt by prepare.py.
+data/*
+!data/manifest.csv
+
+# Only reproducible authoring sources belong here.
+authoring/*
+!authoring/report.py
+!authoring/formulation.xml
+!authoring/package.py
+!authoring/acknowledgement.py
+
+# The submission ZIP is generated locally from the tracked files.
+deliverables/*.zip

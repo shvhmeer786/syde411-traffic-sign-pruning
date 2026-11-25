@@ -1,0 +1,16 @@
+{
+  "method": "admm",
+  "seed": 413,
+  "epochs": 4,
+  "sparsity": 90,
+  "lr": 0.001,
+  "rho": 0.001,
+  "tag": "comparison",
+  "batch": 128,
+  "weight_decay_lambda": 1e-05,
+  "data_order_seed": 2901,
+  "torch_version": "2.15.0",
+  "device": "mps",
+  "manifest_sha256": "748eb18e9927c01bfcdca9cd11476f2a6c33db249cf01395b0d0a186a94b35fa",
+  "dense_checkpoint_sha256": "62834c971684ac7af0861a3820df8c5fc56742b5a37dd6a81eed10f9d3790747"
+}

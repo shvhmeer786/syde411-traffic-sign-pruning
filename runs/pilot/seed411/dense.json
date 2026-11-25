@@ -1,0 +1,16 @@
+{
+  "method": "dense",
+  "seed": 411,
+  "epochs": 12,
+  "sparsity": 80,
+  "lr": 0.003,
+  "rho": 0.001,
+  "tag": "pilot",
+  "batch": 128,
+  "weight_decay_lambda": 1e-05,
+  "data_order_seed": 2901,
+  "torch_version": "2.15.0",
+  "device": "mps",
+  "manifest_sha256": "748eb18e9927c01bfcdca9cd11476f2a6c33db249cf01395b0d0a186a94b35fa",
+  "dense_checkpoint_sha256": null
+}
